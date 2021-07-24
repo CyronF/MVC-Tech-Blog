@@ -7,7 +7,7 @@ const sequelize = require('../config/connection');
 
 const seedAll = async() => {
     await sequelize.sync({ force: true });
-    const user = await User.bulkCreate(seedUsers, {individualHooks: true, returning:true});
+    await User.bulkCreate(seedUsers, {individualHooks:true, returning:true});
     for (const post of seedPosts){
         await Post.create({
             ...post
