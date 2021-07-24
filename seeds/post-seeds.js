@@ -1,6 +1,4 @@
-const { Post } = require('../models/Post');
-
-const postData = [{
+[{
         title: 'Lorem Ipsum I',
         content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         user_id: 1
@@ -17,7 +15,3 @@ const postData = [{
         user_id: 3
     }
 ];
-
-const seedPosts = () => Post.bulkCreate(postData);
-
-module.exports = seedPosts;
