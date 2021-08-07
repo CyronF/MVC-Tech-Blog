@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { User, Post, Comment } = require('../../models');
+const { use } = require('./post-routes');
 router.get('/', (req, res) => {
     User.findAll({
         attributes: { exclude: ['[password'] }
@@ -58,20 +59,13 @@ router.get('/:id', (req, res) => {
 router.post('/', async (req, res) => {
     console.log({ req })
     try {
-        User.create({
-            username: req.body.username,
-            password: req.body.password
+        const userData = await User.create({ 
+            ...req.body
         })
+        req.session.user_id = userData.id
+        req.session.logged_in = true
+        res.status(200).json(userData);
 
-            .then(dbUserData => {
-                req.session.save(() => {
-                    req.session.user_id = dbUserData.id;
-                    req.session.username = dbUserData.username;
-                    req.session.loggedIn = true;
-
-                    res.json(dbUserData);
-                });
-            })
     }
         catch (err) {
         console.log(err);
@@ -79,8 +73,9 @@ router.post('/', async (req, res) => {
     };
 });
 
-router.post('/login', (req, res) => {
-    User.findOne({
+router.post('/login', async (req, res) => {
+    console.log(req.body)
+    const userData = await User.findOne({
         where: {
             username: req.body.username
         }
@@ -97,8 +92,8 @@ router.post('/login', (req, res) => {
         }
         req.session.save(() => {
 
-            req.session.user_id = dbUserData.id;
-            req.session.username = dbUserData.username;
+            req.session.user_id = userData.id;
+            req.session.username = userData.username;
             req.session.loggedIn = true;
 
             res.json({ user: dbUserData, message: 'You are now logged in!' });
