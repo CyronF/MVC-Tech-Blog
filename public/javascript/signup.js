@@ -1,3 +1,4 @@
+console.log("signup.js")
 async function signupFormHandler(event) {
     event.preventDefault();
 
