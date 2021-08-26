@@ -35,8 +35,8 @@ router.get('/', (req, res) => {
 router.get('/login', (req, res) => {  if (req.session.loggedIn) {    res.redirect('/');    return;  }
 res.render('login');});
 
-router.get('/sign-up', (req, res) => {  if (req.session.loggedIn) {    res.redirect('/');    return;  }
-res.render('sign-up');})
+router.get('/signup', (req, res) => {  if (req.session.loggedIn) {    res.redirect('/');    return;  }
+res.render('signup');})
 
 router.get('/post/:id', (req, res) => {
     Post.findOne({
